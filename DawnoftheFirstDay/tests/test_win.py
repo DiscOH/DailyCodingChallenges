@@ -20,13 +20,16 @@ def test_win(method: callable, n=1, sample_list=None):
         elif len(test_list) < 2:
             error = 'Paths of <2 are not winnable'
         elif sorted(results) != results:
-            error = False, 'Paths can only move forward'
+            error = 'Paths can only move forward'
         elif results[-1] >= len(test_list):
-            error = False, 'Illegal values exist in results'
+            error = 'Illegal values exist in results'
+        elif results[-1] > len(test_list):
+            error = 'Output should contain only index, not values'
         results.append(len(test_list))
+
         for i, j in zip(results[:-1], results[1:]):
             if test_list[i] < j - i:
-                error = False, f'Jump distance too far between path {i} and {j}'
+                error = f'Jump distance too far between path {i} and {j}'
                 break
 
     if error:

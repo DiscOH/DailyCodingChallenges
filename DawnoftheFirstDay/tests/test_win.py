@@ -21,7 +21,7 @@ def test_win(method: callable, n=1, sample_list=None):
             error = 'Paths of <2 are not winnable'
         elif sorted(results) != results:
             error = 'Paths can only move forward'
-        elif results[-1] >= len(test_list):
+        elif results[-1] >= len(test_list) - 1:
             error = 'Illegal values exist in results'
         elif results[-1] > len(test_list):
             error = 'Output should contain only index, not values'
@@ -31,8 +31,11 @@ def test_win(method: callable, n=1, sample_list=None):
             if test_list[i] < j - i:
                 error = f'Jump distance too far between path {i} and {j}'
                 break
+        results.pop()
+
+    sollution_path = [test_list[i] if i in results else 'x' for i in range(len(test_list))]
 
     if error:
-        return [error, results, test_list]
+        return [error, sollution_path, results, test_list]
     else:
-        return [True, results, test_list]
+        return [True, sollution_path, results, test_list]

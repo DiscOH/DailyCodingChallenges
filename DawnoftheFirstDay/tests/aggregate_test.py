@@ -31,7 +31,6 @@ def aggregate_test(method_callables: callable):
 
         # test that method solutions are valid
         for m in methods:
-            print(f'testing {m.__name__}')
             try:
 
                 methods[m] = timed_test(m, sample_list=test_list)
@@ -42,13 +41,16 @@ def aggregate_test(method_callables: callable):
                 methods[m] = 'Unexpected error encountered', [], []
 
         # test claims of impossible configurations against other solutions
-        validation = {x for x in methods if methods[x][0] is True and len(methods[x][1]) > 0}
+        validation = {x for x in methods if methods[x][0] is True and len(methods[x][2]) > 0}
         if len(validation) > 0:
             for m in set(methods.keys()).difference(validation):
-                methods[m][0] = False
+                if methods[m][0] is True:
+                    methods[m][0] = 'Could not find a valid path'
         round_no += 1
-        print(f'end of round {round_no}')
+        print(f'*Round {round_no}*')
         print('results:')
         for m in methods:
-            print(f'{m.__name__}:')
-            print(f'{"Passed" if methods[m][0] else "Failed"}, {methods[m][1][:100]}, {methods[m][2][:100]}')
+            print(f'\t{m.__name__}: {"Passed" if methods[m][0] is True else "Failed: " + methods[m][0]}')
+            print(f'\t\tpath: {methods[m][1][:100]}')
+            print(f'\t\tindex: {methods[m][2][:100]}')
+            print(f'\t\tproblem set: {methods[m][3][:100]}')

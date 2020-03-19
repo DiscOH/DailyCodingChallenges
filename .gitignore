@@ -2,3 +2,6 @@
 .idea/FortinetDaily.iml
 .idea/modules.xml
 .idea/vcs.xml
+.idea/misc.xml
+*.pyc
+DawnoftheFirstDay/playground.py

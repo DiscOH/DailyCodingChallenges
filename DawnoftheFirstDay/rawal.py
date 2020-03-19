@@ -2,6 +2,7 @@
 
 path = []
 
+
 def toEnd(arr, start, end):
   
   if start > end:
@@ -19,5 +20,8 @@ def toEnd(arr, start, end):
   path.append(start)
   return toEnd(arr, start + arr[start], end)
 
-arr = [int(i) for i in input().split()]
-print("Index Traversed = ",(toEnd(arr, 0, len(arr)-1)))
+
+# Added __main__ pattern to avoid accidental code execution on import
+if __name__ == '__main__':
+  arr = [int(i) for i in input().split()]
+  print("Index Traversed = ",(toEnd(arr, 0, len(arr)-1)))

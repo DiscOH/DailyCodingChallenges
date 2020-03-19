@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-path = []
-
 
 def toEnd(arr, start, end):
   

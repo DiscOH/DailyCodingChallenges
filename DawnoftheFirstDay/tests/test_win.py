@@ -17,6 +17,8 @@ def test_win(method: callable, n=1, sample_list=None):
         if results is None:
             error = 'Method didnt return anything'
             results = []
+        elif 0 not in results:
+            error = 'Did not start from 0 index'
         elif len(test_list) < 2:
             error = 'Paths of <2 are not winnable'
         elif sorted(results) != results:

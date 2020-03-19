@@ -1,5 +1,5 @@
 from random import randint
-from time import sleep
+
 
 def test_win(method: callable, n=1, sample_list=None):
     error = False

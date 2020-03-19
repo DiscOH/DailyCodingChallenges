@@ -19,4 +19,5 @@ def winnable(arr):
             else:
                 step -= 1
                 index += 1
+        return []
 

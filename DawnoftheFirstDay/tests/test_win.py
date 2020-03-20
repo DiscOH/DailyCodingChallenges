@@ -7,12 +7,17 @@ def test_win(method: callable, n=1, sample_list=None):
         test_list = sample_list
     else:
         test_list = [randint(0, 10) for _ in range(n)]
-    results = method(test_list)
+    try:
+        results = method(test_list)
+    except Exception as e:
+        error = str(e)
+        results = []
+        test_list = []
 
     # test skips winning validation if results claim list was unwinnable
     if results == []:
         pass
-    else:
+    elif error is False:
         # winning validation
         if results is None:
             error = 'Method didnt return anything'

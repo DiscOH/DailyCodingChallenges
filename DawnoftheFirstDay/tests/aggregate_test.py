@@ -35,10 +35,10 @@ def aggregate_test(method_callables: callable):
 
                 methods[m] = timed_test(m, sample_list=test_list)
             except multiprocessing.context.TimeoutError:
-                methods[m] = 'Process exceeded 5 seconds', [], []
+                methods[m] = 'Process exceeded 5 seconds', [], [], []
             except:
                 raise
-                methods[m] = 'Unexpected error encountered', [], []
+                methods[m] = 'Unexpected error encountered', [], [], []
 
         # test claims of impossible configurations against other solutions
         validation = {x for x in methods if methods[x][0] is True and len(methods[x][2]) > 0}

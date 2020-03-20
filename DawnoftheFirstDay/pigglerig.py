@@ -6,7 +6,7 @@ def winnable(arr):
     if len(arr) < 2:
         return []
     if step >= len(arr):
-        return [step]
+        return [0]
 
     for elem in arr[1:-1]:
         if step == 0:

@@ -1,7 +1,12 @@
 Complete the pattern
 
-input: string(very long long long int)
-output: int(string(pattern)) % int(very large n)
+input: n, int
+0 < n < 100
+output: dictionary
+list the count occurrence of each number in your final string
+example:
+If your final result was '312211'
+{'1': 3, '2': 2, '3': 1}
 
 note: n will exceed 2^16; example: 10^9 + 7
 

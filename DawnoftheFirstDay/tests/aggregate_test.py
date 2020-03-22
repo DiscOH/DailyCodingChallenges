@@ -2,7 +2,7 @@ from random import randint
 from DawnoftheFirstDay.tests.test_win import test_win
 from timeout import timeout
 import multiprocessing.pool
-
+import numpy as np
 
 @timeout(5)
 def timed_test(m, sample_list):
@@ -27,18 +27,21 @@ def aggregate_test(method_callables: callable):
             break
 
         # generate a random test list
-        test_list = [randint(0, 5 + round_no) for _ in range(2 ** round_no)]
+         aggr_test_list = np.random.randint(0, 5 + round_no, 2 ** round_no)
+        test_list_chunks = np.split(aggr_test_list, 2**round_no/100)
+
+
 
         # test that method solutions are valid
         for m in methods:
-            try:
-
-                methods[m] = timed_test(m, sample_list=test_list)
-            except multiprocessing.context.TimeoutError:
-                methods[m] = 'Process exceeded 5 seconds', [], [], []
-            except:
-                raise
-                methods[m] = 'Unexpected error encountered', [], [], []
+            for test_list in test_list_chunks:
+                try:
+                    methods[m] = timed_test(m, sample_list=test_list)
+                except multiprocessing.context.TimeoutError:
+                    methods[m] = 'Process exceeded 5 seconds', [], [], []
+                except:
+                    raise
+                    methods[m] = 'Unexpected error encountered', [], [], []
 
         # test claims of impossible configurations against other solutions
         validation = {x for x in methods if methods[x][0] is True and len(methods[x][2]) > 0}

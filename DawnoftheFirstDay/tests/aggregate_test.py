@@ -28,7 +28,7 @@ def aggregate_test(method_callables: callable):
 
         # generate a random test list
          aggr_test_list = np.random.randint(0, 5 + round_no, 2 ** round_no)
-        test_list_chunks = np.split(aggr_test_list, 2**round_no/100)
+        test_list_chunks = np.split(aggr_test_list, 2**round_no/128)
 
 
 

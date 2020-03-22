@@ -1,0 +1,27 @@
+This is a question about counting.
+You are given an list of positive integers.
+Starting from index 0, you take the value of your current location and move forward in the list up to that distance.
+Example:
+[3, 2, 4, 5, 4]
+Starting at index 0 (value = 3).
+You could move up to 3 spaces to the right (to index 1, 2, or 3) but not to index 4 [>, 2, 4, 5, X]
+
+You repeat this pattern until you win or lose.
+
+You win if the index you move to is outside the bounds of the list.
+You lose if:
+1 - You land on the final index in an list.
+2 - You land on a 0 (you're stuck)
+
+[6, 1, 1] is winnable
+[6] is not winnable
+[1, 0] is not winnable
+[1, 1, 3] is not winnable
+
+INPUT:
+A list of positive integers
+
+OUTPUT:
+List
+If winnable, any valid path, listed by the index used.
+else an empty list

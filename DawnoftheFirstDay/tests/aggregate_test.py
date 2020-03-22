@@ -31,10 +31,13 @@ def aggregate_test(method_callables: callable):
         if round_no > 16: #if the array size is larger than the computer can handle, write to a temporary file
             l_file = path.join(mkdtemp(), 'game_data.dat')
             game_memory = np.memmap(l_file, dtype='int', mode='w+', shape=(1, 2 ** round_no))
-
+            #initialize the memory space
             random_board = np.random.randint(0, 5 + round_no, 2 ** round_no)
-            for i in range(int((2 ** round_no) / (2**(round_no/7)))):  # chunk size is 128 or 2^ 7
-                game_memory[i:i + 128] = random_board[i:i + 128]
+
+            #this part creates the 1-D array with random numbers
+            for chunk in range(int((2 ** round_no) / (2**(round_no/10)))):  # chunk size is 2^10
+                game_memory[chunk: chunk + 2**10] = random_board[chunk:chunk + 2**10]
+                #we probably want a smaller chunk size for big compoots
         else:
             test_list = [randint(0, 5 + round_no) for _ in range(2 ** round_no)]
 
@@ -43,6 +46,8 @@ def aggregate_test(method_callables: callable):
         # test that method solutions are valid
         for m in methods:
             try:
+                #and then here, run the methods chunk by chunk
+                #prob need to save [prev_value, curr_value] so that the compoots can continue chunk to chunk
                 methods[m] = timed_test(m, sample_list=test_list)
             except multiprocessing.context.TimeoutError:
                 methods[m] = 'Process exceeded 5 seconds', [], [], []

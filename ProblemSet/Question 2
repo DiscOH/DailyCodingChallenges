@@ -1,0 +1,27 @@
+Complete the pattern
+
+You start with the string '1'
+At every step, you will apply a pattern to your current string.
+for every group of consecutive occurences, you will compress them into a 2 digit representation.
+The first digit will list the number of occurences, the second digit will be the initial digit.
+
+Example
+
+n=0, '1' > n=1, '11'.  You have one instance of the number 1, so you output that as one one. '11'
+n=1, '11' > n=2, '21'. You have two instances of the number 1, so you output that as two one.  '21'
+n=2, '21' > n=3, '1211' One two followed by one one. '12 11'
+n=3, '1211' > n=4, '111221' One one, followed by one two, followed by two ones. '11 12 21'
+n=4, '111221' > n=5, '312211' Three ones, followed by two twos, followed by one one.  '31 22 11'
+
+Your goal is to compute the nth step of the pattern.
+Because we are working with very large strings, your output must be:
+int(result) % 1000000007 <10^9+7>
+Otherwise it will be impossible to store the answers
+
+
+
+Input:
+n: int
+
+Output:
+n: your answer modulous 10^9 + 7

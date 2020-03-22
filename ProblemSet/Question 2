@@ -1,4 +1,4 @@
-<b><u> Complete the pattern </b></u>
+Complete the pattern
 
 input: string(very long long long int)
 output: int(string(pattern)) % int(very large n)

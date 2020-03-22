@@ -3,11 +3,12 @@ from DawnoftheFirstDay.tests.test_win import test_win
 from timeout import timeout
 import multiprocessing.pool
 import numpy as np
+from tempfile import mkdtemp
+import os.path as path
 
 @timeout(5)
 def timed_test(m, sample_list):
     return test_win(m, sample_list=sample_list)
-
 
 def aggregate_test(method_callables: callable):
     methods = {x: [True, [], []] for x in method_callables}
@@ -27,21 +28,24 @@ def aggregate_test(method_callables: callable):
             break
 
         # generate a random test list
-         aggr_test_list = np.random.randint(0, 5 + round_no, 2 ** round_no)
-        test_list_chunks = np.split(aggr_test_list, (2**round_no) / 128)
+        if round_no > 16: #if the array size is larger than the computer can handle, write to a temporary file
+            l_file = path.join(mkdtemp(), 'game_data.dat')
+            game_memory = np.memmap(l_file, dtype='int', mode='w+', shape=(1, 2 ** round_no))
+
+            random_board = np.random.randint(0, 5 + round_no, 2 ** round_no)
+            for i in range(int((2 ** round_no) / (2**(round_no/7)))):  # chunk size is 128 or 2^ 7
+                game_memory[i:i + 128] = random_board[i:i + 128]
+        else:
+            test_list = [randint(0, 5 + round_no) for _ in range(2 ** round_no)]
 
 
 
         # test that method solutions are valid
         for m in methods:
-            for test_list in test_list_chunks:
-                try:
-                    methods[m] = timed_test(m, sample_list=test_list)
-                except multiprocessing.context.TimeoutError:
-                    methods[m] = 'Process exceeded 5 seconds', [], [], []
-                except:
-                    raise
-                    methods[m] = 'Unexpected error encountered', [], [], []
+            try:
+                methods[m] = timed_test(m, sample_list=test_list)
+            except multiprocessing.context.TimeoutError:
+                methods[m] = 'Process exceeded 5 seconds', [], [], []
 
         # test claims of impossible configurations against other solutions
         validation = {x for x in methods if methods[x][0] is True and len(methods[x][2]) > 0}

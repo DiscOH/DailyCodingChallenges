@@ -30,13 +30,14 @@ def aggregate_test(method_callables: callable):
         # generate a random test list
         if round_no > 16: #if the array size is larger than the computer can handle, write to a temporary file
             l_file = path.join(mkdtemp(), 'game_data.dat')
-            game_memory = np.memmap(l_file, dtype='int', mode='w+', shape=(1, 2 ** round_no))
+            game_memory = np.memmap(l_file, dtype='int', mode='w+', shape=(len(methods), 2 ** round_no))
             #initialize the memory space
             random_board = np.random.randint(0, 5 + round_no, 2 ** round_no)
+            random_board.resize((len(methods), 2 ** round_no))
 
             #this part creates the 1-D array with random numbers
-            for chunk in range(int((2 ** round_no) / (2**(round_no/10)))):  # chunk size is 2^10
-                game_memory[chunk: chunk + 2**10] = random_board[chunk:chunk + 2**10]
+            for chunk in range(int((2 ** round_no) / (2**(round_no/10)))):  # writing to mem space in chunk size 2^10
+                game_memory[0][chunk: chunk + 2**10] = random_board[chunk:chunk + 2**10]
                 #we probably want a smaller chunk size for big compoots
         else:
             test_list = [randint(0, 5 + round_no) for _ in range(2 ** round_no)]

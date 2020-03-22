@@ -5,7 +5,7 @@ def winnable(arr):
 
     if len(arr) < 2:
         return []
-    if step + 1 >= len(arr):
+    if step >= len(arr):
         return [0]
 
     for elem in arr[1:-1]:
@@ -17,7 +17,7 @@ def winnable(arr):
             path.append(index)
             index += 1
             step = elem
-            if step - 1 > len(arr[index:-1]):
+            if step > (len(arr[index:-1])+1):
                 return path
         else:
             step -= 1
